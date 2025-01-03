@@ -15,14 +15,7 @@ corpus_names = {
     "MedCorp": ["pubmed", "textbooks", "statpearls", "wikipedia"],
 }
 
-retriever_names = {
-    "BM25": ["bm25"],
-    "Contriever": ["facebook/contriever"],
-    "SPECTER": ["allenai/specter"],
-    "MedCPT": ["ncbi/MedCPT-Query-Encoder"],
-    "RRF-2": ["bm25", "ncbi/MedCPT-Query-Encoder"],
-    "RRF-4": ["bm25", "facebook/contriever", "allenai/specter", "ncbi/MedCPT-Query-Encoder"]
-}
+retriever_names = {}
 
 def ends_with_ending_punctuation(s):
     ending_punctuation = ('.', '?', '!')
@@ -203,16 +196,15 @@ class Retriever:
 
 class RetrievalSystem:
 
-    def __init__(self, retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./corpus", HNSW=False):
-        self.retriever_name = retriever_name
+    def __init__(self, corpus_name="Textbooks", db_dir="./corpus", HNSW=False):
+        #self.retriever_name = retriever_name
         self.corpus_name = corpus_name
         assert self.corpus_name in corpus_names
-        assert self.retriever_name in retriever_names
-        self.retrievers = []
-        for retriever in retriever_names[self.retriever_name]:
-            self.retrievers.append([])
-            for corpus in corpus_names[self.corpus_name]:
-                self.retrievers[-1].append(Retriever(retriever, corpus, db_dir, HNSW=HNSW))
+        self.retriever_per_corpus = []
+        
+        for corpus in corpus_names[self.corpus_name]:
+            self.retriever_per_corpus.append(Retriever(corpus, db_dir, HNSW=HNSW)) # removed retriever name
+     
     
     def retrieve(self, question, k=32, rrf_k=100, id_only=False):
         '''
@@ -223,24 +215,18 @@ class RetrievalSystem:
         texts = []
         scores = []
 
-        if "RRF" in self.retriever_name:
-            k_ = max(k * 2, 100)
-        else:
-            k_ = k
-        for i in range(len(retriever_names[self.retriever_name])):
-            texts.append([])
-            scores.append([])
-            for j in range(len(corpus_names[self.corpus_name])):
-                t, s = self.retrievers[i][j].get_relevant_documents(question, k=k_, id_only=id_only)
-                texts[-1].append(t)
-                scores[-1].append(s)
-        texts, scores = self.merge(texts, scores, k=k, rrf_k=rrf_k)
+        k_ = k
+        for j in range(len(corpus_names[self.corpus_name])):
+            t, s = self.retriever_per_corpus[j].get_relevant_documents(question, k=k_, id_only=id_only)
+            texts.append(t)
+            scores.append(s)
+        # texts, scores = self.merge(texts, scores, k=k, rrf_k=rrf_k)
 
         return texts, scores
 
     def merge(self, texts, scores, k=32, rrf_k=100):
         '''
-            Merge the texts and scores from different retrievers
+            Merge the texts and scores from different retriever_per_corpus
         '''
         RRF_dict = {}
         for i in range(len(retriever_names[self.retriever_name])):
