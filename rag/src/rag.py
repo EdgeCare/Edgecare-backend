@@ -97,12 +97,12 @@ class MedRAG:
             elif "llama-3" in llm_name.lower():
                 self.max_length = 8192
                 self.context_length = 7168
-            elif "meditron-70b" in llm_name.lower():
-                self.tokenizer.chat_template = open('./templates/meditron.jinja').read().replace('    ', '').replace('\n', '')
-                self.max_length = 4096
-                self.context_length = 3072
-                self.templates["cot_prompt"] = meditron_cot
-                self.templates["medrag_prompt"] = meditron_medrag
+            # elif "meditron-70b" in llm_name.lower():
+            #     self.tokenizer.chat_template = open('./templates/meditron.jinja').read().replace('    ', '').replace('\n', '')
+            #     self.max_length = 4096
+            #     self.context_length = 3072
+            #     self.templates["cot_prompt"] = meditron_cot
+            #     self.templates["medrag_prompt"] = meditron_medrag
             elif "pmc_llama" in llm_name.lower():
                 self.tokenizer.chat_template = open('./templates/pmc_llama.jinja').read().replace('    ', '').replace('\n', '')
                 self.max_length = 2048
