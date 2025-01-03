@@ -11,8 +11,8 @@
 - Then, install the remaining requirements using: `pip install -r requirements.txt`
 
 - Re-install huggingfacehub using following commands:
-        `pip uninstall huggingface_hub -y`  and 
-
+        ```pip uninstall huggingface_hub -y```
+  and 
         `pip install huggingface_hub==0.24.0`
 
 
@@ -21,4 +21,6 @@
 ## To Run Server
 
 Start server in port 8000 without 8080/proxy/
-``` uvicorn main:app --host 0.0.0.0 --port 8000 ```
+```
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
