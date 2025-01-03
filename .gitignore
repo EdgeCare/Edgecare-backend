@@ -1,0 +1,5 @@
+backenv/
+__pycache__/
+models/__pycache__/
+rag/__pycache__/
+routes/__pycache__/

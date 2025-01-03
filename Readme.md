@@ -15,3 +15,10 @@
 
         `pip install huggingface_hub==0.24.0`
 
+
+
+
+## To Run Server
+
+Start server in port 8000 without 8080/proxy/
+``` uvicorn main:app --host 0.0.0.0 --port 8000 ```
