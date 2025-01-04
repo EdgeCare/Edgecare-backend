@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.user import *
+from schemas.user import *
 
 router = APIRouter()
 

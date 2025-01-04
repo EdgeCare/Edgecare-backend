@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException, Depends
-from routes import user, public
-from models import public as public_model,user as user_model
-# from db import database
+from routes import auth, user
+from db.models import public as public_model,user as user_model
 import uvicorn
+from db.database import engine
+from db.models.user import Base
 
 # App setup
 app = FastAPI()
@@ -12,8 +13,13 @@ async def root():
     return {"message": "Server is running!"}
 
 # Include routes
-app.include_router(public.router, prefix="/public", tags=["Public"])
+app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(user.router, prefix="/users", tags=["Users"])
 
 if __name__ == "__main__":
+
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+
+    # FAST API server
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
