@@ -12,11 +12,11 @@ from transformers import StoppingCriteria, StoppingCriteriaList
 import tiktoken
 import sys
 sys.path.append("src")
-from utils import RetrievalSystem, DocExtracter
-from template import *
-from ollamaRequest import send_prompt,modelOutput
+from .utils import RetrievalSystem, DocExtracter
+from .template import *
+from .ollamaRequest import send_prompt,modelOutput
 
-from config import config
+from .config import config
 
 openai.api_type = openai.api_type or os.getenv("OPENAI_API_TYPE") or config.get("api_type")
 openai.api_version = openai.api_version or os.getenv("OPENAI_API_VERSION") or config.get("api_version")
@@ -43,7 +43,7 @@ else:
 
 class MedRAG:
 
-    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo-16k", rag=True, retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./corpus", cache_dir=None):
+    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo-16k", rag=True, retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./rag/corpus", cache_dir=None):
         self.llm_name = llm_name
         self.rag = rag
         self.retriever_name = retriever_name

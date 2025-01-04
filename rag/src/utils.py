@@ -119,7 +119,7 @@ def construct_index(index_dir, model_name, h_dim=768, HNSW=False, M=32):
 
 class Retriever: 
 
-    def __init__(self, retriever_name="ncbi/MedCPT-Query-Encoder", corpus_name="textbooks", db_dir="./corpus", HNSW=False, **kwarg):
+    def __init__(self, retriever_name="ncbi/MedCPT-Query-Encoder", corpus_name="textbooks", db_dir="./rag/corpus", HNSW=False, **kwarg):
         self.retriever_name = retriever_name
         self.corpus_name = corpus_name
 
@@ -196,14 +196,15 @@ class Retriever:
 
 class RetrievalSystem:
 
-    def __init__(self, corpus_name="Textbooks", db_dir="./corpus", HNSW=False):
+    def __init__(self,retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./rag/corpus", HNSW=False):
         #self.retriever_name = retriever_name
         self.corpus_name = corpus_name
+        print("//////",self.corpus_name)
         assert self.corpus_name in corpus_names
         self.retriever_per_corpus = []
         
         for corpus in corpus_names[self.corpus_name]:
-            self.retriever_per_corpus.append(Retriever(corpus, db_dir, HNSW=HNSW)) # removed retriever name
+            self.retriever_per_corpus.append(Retriever(corpus_name=corpus, db_dir=db_dir, HNSW=HNSW)) # removed retriever name
      
     
     def retrieve(self, question, k=32, rrf_k=100, id_only=False):
