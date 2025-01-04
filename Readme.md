@@ -24,3 +24,30 @@ Start server in port 8000 without 8080/proxy/
 ```
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+
+## File Structure
+
+```
+Edgecare-backend/
+├── main.py               # Entry point for the FastAPI application
+├── README.md             # Documentation for the project
+├── requirements.txt      # List of Python dependencies
+├── .backenv              # Environment variables (e.g., DB credentials)
+├── db/                   # Database connection and initialization
+│   ├── __init__.py
+│   ├── database.py       # Database session and engine configuration
+│   └── models/           # Directory for database model modules
+│       ├── __init__.py
+│       ├── user.py       # User database model
+│       └── public.py     # Public database model (if applicable)
+├── schemas/              # Pydantic schemas for request/response validation
+│   ├── __init__.py
+│   ├── user.py           # Schemas for user-related APIs
+│   └── public.py         # Schemas for public-related APIs (if applicable)
+├── rag/                  # EdgeCare RAG
+├── routes/               # API route definitions
+│   ├── user.py           # User-related endpoints
+│   └── public.py         # Public-related endpoints
+└── utils/                # Utility functions and reusable components
+    └── helpers.py        # Helper functions for the app
+```
