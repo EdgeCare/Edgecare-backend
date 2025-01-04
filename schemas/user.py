@@ -12,6 +12,7 @@ class UserBase(BaseModel):
 
 # Schema for creating a new user
 class UserCreate(UserBase):
+    username: str
     password: str
 
 # Schema for response with user details

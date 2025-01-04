@@ -1,6 +1,4 @@
 backenv/
-__pycache__/
-models/__pycache__/
-rag/__pycache__/
-routes/__pycache__/
+**/__pycache__/
 .venv
+rag/corpus/
