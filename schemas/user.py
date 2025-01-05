@@ -26,3 +26,8 @@ class UserResponse(UserBase):
 class TokenResponse(BaseModel):
     token: str
     expires_at: datetime
+
+
+class PostData(BaseModel):
+    title: str
+    content: str
