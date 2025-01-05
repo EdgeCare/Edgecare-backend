@@ -36,7 +36,7 @@ options = {
 #             }
 
 # answer = "C"
-medrag = MedRAG(llm_name="OpenAI/gpt-3.5-turbo", rag=True, retriever_name="MedCPT", corpus_name="Textbooks")
+medrag = MedRAG(llm_name="meta-llama/Meta-Llama-3-70B-Instruct", rag=True, retriever_name="MedCPT", corpus_name="Textbooks")
 
 ### MedRAG without pre-determined snippets
 answer, snippets, scores = medrag.answer(question=question, options=options, k=32)

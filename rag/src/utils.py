@@ -221,7 +221,7 @@ class RetrievalSystem:
             t, s = self.retriever_per_corpus[j].get_relevant_documents(question, k=k_, id_only=id_only)
             texts.append(t)
             scores.append(s)
-        # texts, scores = self.merge(texts, scores, k=k, rrf_k=rrf_k)
+        texts, scores = self.merge(texts, scores, k=k, rrf_k=rrf_k)
 
         return texts, scores
 
@@ -230,37 +230,34 @@ class RetrievalSystem:
             Merge the texts and scores from different retriever_per_corpus
         '''
         RRF_dict = {}
-        for i in range(len(retriever_names[self.retriever_name])):
-            texts_all, scores_all = None, None
-            for j in range(len(corpus_names[self.corpus_name])):
-                if texts_all is None:
-                    texts_all = texts[i][j]
-                    scores_all = scores[i][j]
-                else:
-                    texts_all = texts_all + texts[i][j]
-                    scores_all = scores_all + scores[i][j]
-            if "specter" in retriever_names[self.retriever_name][i].lower():
-                sorted_index = np.array(scores_all).argsort()
+        #for i in range(len(retriever_names[self.retriever_name])):
+        texts_all, scores_all = None, None
+        for j in range(len(corpus_names[self.corpus_name])):
+            if texts_all is None:
+                texts_all = texts[j]
+                scores_all = scores[j]
             else:
-                sorted_index = np.array(scores_all).argsort()[::-1]
-            texts[i] = [texts_all[i] for i in sorted_index]
-            scores[i] = [scores_all[i] for i in sorted_index]
-            for j, item in enumerate(texts[i]):
-                if item["id"] in RRF_dict:
-                    RRF_dict[item["id"]]["score"] += 1 / (rrf_k + j + 1)
-                    RRF_dict[item["id"]]["count"] += 1
-                else:
-                    RRF_dict[item["id"]] = {
-                        "id": item["id"],
-                        "title": item.get("title", ""),
-                        "content": item.get("content", ""),
-                        "score": 1 / (rrf_k + j + 1),
-                        "count": 1
-                        }
+                texts_all = texts_all + texts[j]
+                scores_all = scores_all + scores[j]
+        sorted_index = np.array(scores_all).argsort()[::-1]
+        texts = [texts_all[i] for i in sorted_index]
+        scores = [scores_all[i] for i in sorted_index]
+        for j, item in enumerate(texts):
+            if item["id"] in RRF_dict:
+                RRF_dict[item["id"]]["score"] += 1 / (rrf_k + j + 1)
+                RRF_dict[item["id"]]["count"] += 1
+            else:
+                RRF_dict[item["id"]] = {
+                    "id": item["id"],
+                    "title": item.get("title", ""),
+                    "content": item.get("content", ""),
+                    "score": 1 / (rrf_k + j + 1),
+                    "count": 1
+                    }
         RRF_list = sorted(RRF_dict.items(), key=lambda x: x[1]["score"], reverse=True)
         if len(texts) == 1:
-            texts = texts[0][:k]
-            scores = scores[0][:k]
+            texts = texts[:k]
+            scores = scores[:k]
         else:
             texts = [dict((key, item[1][key]) for key in ("id", "title", "content")) for item in RRF_list[:k]]
             scores = [item[1]["score"] for item in RRF_list[:k]]
