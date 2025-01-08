@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
-from routes import auth, user
+from routes import auth, user, rag_route
 from db.models import public as public_model,user as user_model
 import uvicorn
 from db.database import engine
@@ -15,6 +15,7 @@ async def root():
 # Include routes
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(user.router, prefix="/users", tags=["Users"])
+app.include_router(rag_route.router, prefix="/rag", tags=["Rag"])
 
 if __name__ == "__main__":
 

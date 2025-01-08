@@ -244,7 +244,7 @@ class MedRAG:
                 #     truncation=True,
                 #     stopping_criteria=stopping_criteria
                 # )
-            ans = send_prompt(prompt)
+            ans = send_prompt(prompt)   
             # ans = modelOutput(prompt)
             # print("This is model response:",ans)
         return ans
