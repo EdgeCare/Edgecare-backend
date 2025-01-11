@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Server is running!"}
+    return {"message": "EdgeCare server is running!"}
 
 # Include routes
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
@@ -19,7 +19,7 @@ app.include_router(rag_route.router, prefix="/rag", tags=["Rag"])
 
 if __name__ == "__main__":
 
-    # Create tables
+    # Create db tables
     Base.metadata.create_all(bind=engine)
 
     # FAST API server

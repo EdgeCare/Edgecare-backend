@@ -68,6 +68,7 @@ class MedRAG:
             self.tokenizer = tiktoken.get_encoding("cl100k_base")
         elif "gemini" in self.llm_name.lower():
             import google.generativeai as genai
+            
             genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
             self.model = genai.GenerativeModel(
                 model_name=self.llm_name.split('/')[-1],

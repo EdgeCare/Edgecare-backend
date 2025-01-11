@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from schemas.user import *
+from workflows.main_workflow import main_workflow
 
 router = APIRouter()
 
@@ -7,6 +8,14 @@ router = APIRouter()
 async def create_post(post_data: PostData):  
     question= post_data.content
 
-    answer="dummy"
+    result = main_workflow(question)
 
-    return {"answer": answer}
+    return {"multiAgentResponse": result}
+
+# Currently not using 
+@router.post("/userDocuments")
+async def create_post(post_data):  
+
+    pass
+
+    return {"responce": True}

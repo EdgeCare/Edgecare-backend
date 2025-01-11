@@ -1,8 +1,8 @@
 ## This repo contains all API controllers, RAG system, Multi-agent message passing logic of the EdgeCare org.
 ### How to setup:
 - First, create/ activate virtual env:
-        create:  python -m venv myenv
-        activate:  source myenv/bin/activate
+        create:  python -m venv .backend-env
+        activate:  source .backend-env/bin/activate
 
 - Install PyTorch suitable for your system's CUDA version by following the [official instructions](https://pytorch.org/get-started/locally/) (2.1.1+cu121 in our case).
 
@@ -33,6 +33,15 @@ Edgecare-backend/
 ├── README.md             # Documentation for the project
 ├── requirements.txt      # List of Python dependencies
 ├── .backenv              # Environment variables (e.g., DB credentials)
+├── agents/
+│   ├── manager_agent.py  # Manager agent for orchestration
+│   ├── qa_agent.py       # Question-Answering agent
+│   ├── rag_agent.py      # Retrieval agent
+│   ├── query_refiner.py  # User query refinement agent
+│   ├── keyword_agent.py  # Keyword extraction agent
+│   └── 
+├── workflows/            # Workflows combining multiple agents
+│   ├── multi_agent_workflow.py 
 ├── db/                   # Database connection and initialization
 │   ├── __init__.py
 │   ├── database.py       # Database session and engine configuration
