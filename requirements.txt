@@ -24,7 +24,6 @@ exceptiongroup==1.2.2
 faiss-cpu==1.7.4
 fastapi==0.115.6
 filelock==3.13.1
-Flask==3.0.3
 flatbuffers==24.3.25
 frozenlist==1.4.1
 fsspec==2023.10.0
@@ -139,3 +138,4 @@ Werkzeug==3.0.4
 wrapt==1.16.0
 xxhash==3.5.0
 yarl==1.16.0
+python-dotenv==1.0.1
