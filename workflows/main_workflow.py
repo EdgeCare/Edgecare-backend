@@ -1,31 +1,32 @@
-# from langgraph import Node, Graph
 from agents.keyword_extraction_agent import KeywordExtractionAgent
-from agents.rag_agent import RetrievalAgent
+from agents.retrieval_agent import RetrievalAgent
 from agents.question_answering_agent import QuestionAnsweringAgent
 from agents.manager_agent import ManagerAgent
 
-def main_workflow(query: str) -> str:
-    # # Define agent nodes
-    # manager_node = Node(name="Manager",function=ManagerAgent.manage)
-    # keyword_extraction_node = Node(name="Keyword Extraction", function=KeywordExtractionAgent.extract_keywords)
-    # retrieval_node = Node(name="Rag", function=RetrievalAgent.retrieve_documents)
-    # qa_node = Node(name="Q&A", function=QuestionAnsweringAgent.answer_question)
+from langgraph.graph import StateGraph, START, END
+from schemas.agents import AgentState
 
-    # # Build agent graph
-    # graph = Graph()
-    # graph.add_node(manager_node)
-    # graph.add_node(keyword_extraction_node)
-    # graph.add_node(rag_node)
-    # graph.add_node(qa_node)
+# Initialize the StateGraph with the defined state schema
+graph = StateGraph(AgentState)
 
-    # # Edges
-    # graph.add_edge(manager_node, keyword_extraction_node)
-    # graph.add_edge(manager_node, rag_node)
-    # graph.add_edge(manager_node, qa_node)
-    # graph.add_edge(keyword_extraction_node, rag_node)
+# Add agent nodes
+graph.add_node("Manager", ManagerAgent.manage)
+graph.add_node("KEA", KeywordExtractionAgent.extract_keywords)
+graph.add_node("RA", RetrievalAgent.retrieve_documents)
+graph.add_node("QAA", QuestionAnsweringAgent.answer_question)
 
+# Define edges to establish the workflow
+graph.add_edge(START, "Manager")
+graph.add_edge("Manager", "KEA")
+graph.add_edge("KEA", "Manager")
+graph.add_edge("Manager", "RA")
+graph.add_edge("RA", "Manager")
+graph.add_edge("Manager", "QAA")
+graph.add_edge("QAA", "Manager")
+graph.add_edge("Manager", END)
 
-    # # Run workflow
-    # result = graph.run(input_data=query)
-    # return result
-    return "Done"
+# graph.add_conditional_edges("QAA", needs_refinement)
+print("main workflow Running")
+# Compile the graph
+compiled_graph = graph.compile()
+
