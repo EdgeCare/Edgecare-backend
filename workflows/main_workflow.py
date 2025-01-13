@@ -3,7 +3,7 @@ from agents.retrieval_agent import RetrievalAgent
 from agents.question_answering_agent import QuestionAnsweringAgent
 from agents.manager_agent import ManagerAgent
 
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import StateGraph, START
 from schemas.agents import AgentState
 
 # Initialize the StateGraph with the defined state schema
@@ -17,16 +17,11 @@ graph.add_node("QAA", QuestionAnsweringAgent.answer_question)
 
 # Define edges to establish the workflow
 graph.add_edge(START, "Manager")
-graph.add_edge("Manager", "KEA")
 graph.add_edge("KEA", "Manager")
-graph.add_edge("Manager", "RA")
 graph.add_edge("RA", "Manager")
-graph.add_edge("Manager", "QAA")
 graph.add_edge("QAA", "Manager")
-graph.add_edge("Manager", END)
 
-# graph.add_conditional_edges("QAA", needs_refinement)
 print("main workflow Running")
+
 # Compile the graph
 compiled_graph = graph.compile()
-

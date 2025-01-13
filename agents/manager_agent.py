@@ -6,12 +6,15 @@ from schemas.agents import AgentState
 class ManagerAgent:
     @staticmethod
     def manage(state: AgentState) -> Command[Literal["KEA", "RA", "QAA", END]]:
-        print("Manager Agent Running",state)
         if not state.keywords:
+            print("\n🕵️ Invoking Keyword Extraction Agent")
             return Command(goto="KEA")
         elif not state.documents:
+            print("\n🕵️ Invoking Retrieval Agent")
             return Command(goto="RA")
         elif not state.answer:
+            print("\n🕵️ Invoking Question Answering Agent")
             return Command(goto="QAA")
         else:
+            print("\nProcess Complete!\n",state)
             return Command(goto=END)

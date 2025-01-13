@@ -20,15 +20,14 @@ def extract_list_from_response(response):
     except Exception as e:
         return f"Error extracting list: {e}"
 
-
 class KeywordExtractionAgent:
     @staticmethod
     def extract_keywords(state: AgentState) -> dict:
-        print("Keyword Extraction Agent Running", state)
+        print("🤖 Keyword Extraction Agent Running", state)
         userQuestion = state.user_query
 
         prompt = f'''
-        You are an expert medical knowledge assistant. Your task is to generate specific and concise queries for retrieving the most relevant medical documents based on a user’s question. 
+        You are an expert medical knowledge assistant. Your task is to generate specific and concise queries for retrieving the most relevant medical documents based on a user's question. 
 
         The generated queries should:
         1. Focus on the key medical concepts, terms, and conditions mentioned in the question.
@@ -48,5 +47,4 @@ class KeywordExtractionAgent:
 
         print(f"extracted ekywords -> {extracted_keywords}")
 
-        state.keywords = extracted_keywords
-        return state  
+        return {"keywords": extracted_keywords}
