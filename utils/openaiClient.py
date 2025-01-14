@@ -2,6 +2,7 @@ import os
 import openai
 from dotenv import load_dotenv
 from typing import Optional
+from rag.src.utils import RetrievalSystem
 
 load_dotenv()
 class OpenAIClient:
@@ -15,7 +16,7 @@ class OpenAIClient:
 
         openai.api_key = self.api_key
         openai.api_type = "openai"
-        openai.api_version = None  # Default version
+        openai.api_version = "2020-11-07"  
 
     def generate_response(self, prompt: str, temperature: float = 0.7, max_tokens: int = 1000) -> str:
         try:
@@ -31,3 +32,7 @@ class OpenAIClient:
             return response["choices"][0]["message"]["content"]
         except Exception as e:
             raise RuntimeError(f"Error during OpenAI API request: {e}")
+
+retrieval_system = RetrievalSystem("MedCPT", "Textbooks", "./rag/corpus")
+openaiClient = OpenAIClient()
+print("openaiClient.py is running")

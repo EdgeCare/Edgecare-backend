@@ -2,7 +2,7 @@ import ast
 from pydantic import BaseModel
 from typing import List, Optional
 from schemas.agents import AgentState
-from utils.openaiClient import OpenAIClient
+from utils.openaiClient import openaiClient
 
 def extract_list_from_response(response):
     try:
@@ -23,7 +23,7 @@ def extract_list_from_response(response):
 class KeywordExtractionAgent:
     @staticmethod
     def extract_keywords(state: AgentState) -> dict:
-        print("🤖 Keyword Extraction Agent Running", state)
+        print("🤖 Keyword Extraction Agent Running")
         userQuestion = state.user_query
 
         prompt = f'''
@@ -41,9 +41,9 @@ class KeywordExtractionAgent:
         Provide the queries as a Python list of strings. Ensure the list format is valid and ready for parsing directly into a Python program.
         '''
 
-        openai_client = OpenAIClient()
-        keyWords =  openai_client.generate_response(prompt)
+        keyWords =  openaiClient.generate_response(prompt)
         extracted_keywords = extract_list_from_response(keyWords)
+        # extracted_keywords = ['body anatomy', 'human body structure', 'body composition', 'physiology of the human body', 'organ systems in the body']
 
         print(f"extracted ekywords -> {extracted_keywords}")
 
