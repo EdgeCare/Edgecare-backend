@@ -1,4 +1,5 @@
 **/__pycache__/
 .ec-env
+.env
 rag/corpus/
 rag/src/osh_git_cred.txt

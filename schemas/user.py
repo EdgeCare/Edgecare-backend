@@ -20,14 +20,9 @@ class UserResponse(UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Schema for authentication token
 class TokenResponse(BaseModel):
     token: str
     expires_at: datetime
-
-
-class PostData(BaseModel):
-    title: str
-    content: str
