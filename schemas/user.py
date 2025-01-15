@@ -1,18 +1,28 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class PostData(BaseModel):
+class UserQuestionRequest(BaseModel):
+    userId: int
+    token: str
+    content: str
+
+class UserQuestionResponce(BaseModel):
+    status: str
+    content:str
+
+class PostMcqData(BaseModel):
     id: int
     title: str
-    content: str
+    question: str
+    options:str
     
 # Base schema for user
 class UserBase(BaseModel):
-    username: str
+    email: str
 
 # Schema for creating a new user
 class UserCreate(UserBase):
-    username: str
+    email: str
     password: str
 
 # Schema for response with user details
@@ -25,4 +35,5 @@ class UserResponse(UserBase):
 # Schema for authentication token
 class TokenResponse(BaseModel):
     token: str
-    expires_at: datetime
+    userId: str
+    expiresAt: datetime

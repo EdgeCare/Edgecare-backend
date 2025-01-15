@@ -1,13 +1,14 @@
 from fastapi import APIRouter, HTTPException
 from schemas.user import *
 from workflows.main_workflow import compiled_graph
+from workflows.mcq_questions_workflow import compiled_mcq_answer_graph
 from typing import List, Optional
 from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.post("/userQuestion")
-async def create_post(post_data: PostData):
+@router.post("/userQuestion", response_model=UserQuestionResponce)
+async def create_post(post_data: UserQuestionRequest):
     question = post_data.content
 
     try:
@@ -18,9 +19,26 @@ async def create_post(post_data: PostData):
             "answer": None,
             "needs_refinement": False
         })
-        return final_state
+        return {"status": "Successful", "content": final_state["answer"]}
     except Exception as e:
-        print(f"Error occurred: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+@router.post("/mcqQuestion")
+async def create_Mcq_post(post_data: PostMcqData):
+    question = post_data.question
+    options = post_data.options
+
+    try:
+        final_state = await compiled_mcq_answer_graph.ainvoke({
+            "user_query": question,
+            "keywords": [],
+            "documents": [],
+            "answer": None,
+            "answer_options": options,
+            "needs_refinement": False
+        })
+        return {"status": "Successful", "content": final_state["answer"]}
+    except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 # Currently not using 

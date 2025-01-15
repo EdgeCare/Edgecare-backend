@@ -41,9 +41,12 @@ class KeywordExtractionAgent:
         Provide the queries as a Python list of strings. Ensure the list format is valid and ready for parsing directly into a Python program.
         '''
 
-        keyWords =  openaiClient.generate_response(prompt)
-        extracted_keywords = extract_list_from_response(keyWords)
-        # extracted_keywords = ['body anatomy', 'human body structure', 'body composition', 'physiology of the human body', 'organ systems in the body']
+        for i in range (5):
+            keyWords =  openaiClient.generate_response(prompt)
+            extracted_keywords = extract_list_from_response(keyWords)
+            # extracted_keywords = ['body anatomy', 'human body structure', 'body composition', 'physiology of the human body', 'organ systems in the body']
+            if(len(extracted_keywords)>2):
+                break
 
         print(f"extracted ekywords -> {extracted_keywords}")
 

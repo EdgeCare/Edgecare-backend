@@ -62,7 +62,7 @@ class RetrievalAgent:
 
         retrieved_snippets = retrieve_top_snippets(state.keywords)
         retrieved_snippets =  [entry['snippet']['content'] for entry in retrieved_snippets]
-        print(retrieved_snippets)
+        # print(retrieved_snippets)
         
         return {"documents": retrieved_snippets}
 
