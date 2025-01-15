@@ -23,8 +23,8 @@ async def create_post(post_data: UserQuestionRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
-@router.post("/mcqQuestion")
-async def create_Mcq_post(post_data: PostMcqData):
+@router.post("/mcqQuestion" , response_model=UserQuestionResponce)
+async def create_Mcq_post(post_data: McqQuestionRequest):
     question = post_data.question
     options = post_data.options
 

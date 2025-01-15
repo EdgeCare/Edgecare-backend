@@ -16,9 +16,10 @@ def extract_list_from_response(response):
         if isinstance(extracted_list, list):
             return extracted_list
         else:
-            raise ValueError("Extracted part is not a valid list.")
+            return []
     except Exception as e:
-        return f"Error extracting list: {e}"
+        print(f"Error extracting list: {e}")
+        return []
 
 class KeywordExtractionAgent:
     @staticmethod

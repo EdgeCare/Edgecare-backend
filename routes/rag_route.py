@@ -5,7 +5,7 @@ from rag.src.rag import MedRAG
 router = APIRouter()
 
 @router.post("/send")
-async def create_post(post_data: PostData):  
+async def create_post(post_data: UserQuestionRequest):  
     question= post_data.content
     medrag = MedRAG(llm_name="meta-llama/Meta-Llama-3-70B-Instruct", rag=True, retriever_name="MedCPT", corpus_name="Textbooks")
     ### MedRAG without pre-determined snippets
