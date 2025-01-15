@@ -43,7 +43,7 @@ else:
 
 class MedRAG:
 
-    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo-16k", rag=True, retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./rag/corpus", cache_dir=None):
+    def __init__(self, llm_name="OpenAI/gpt-3.5-turbo-0125", rag=True, retriever_name="MedCPT", corpus_name="Textbooks", db_dir="./rag/corpus", cache_dir=None):
         self.llm_name = llm_name
         self.rag = rag
         self.retriever_name = retriever_name

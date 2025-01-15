@@ -7,7 +7,7 @@ from rag.src.utils import RetrievalSystem
 load_dotenv()
 class OpenAIClient:
 
-    def __init__(self, api_key: Optional[str] = None, model: str = "gpt-3.5-turbo"):
+    def __init__(self, api_key: Optional[str] = None, model: str = "gpt-3.5-turbo-0125"):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
 
