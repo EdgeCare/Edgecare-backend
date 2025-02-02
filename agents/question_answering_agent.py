@@ -12,7 +12,7 @@ class QuestionAnsweringAgent:
         chat = state.chat if state.chat else 'None'
 
         prompt = '''
-You are an expert medical knowledge assistant. Your task is to provide answers to medical questions. You can chat with the patient to assist them as a medical professional.
+You are an expert medical knowledge assistant. Your task is to provide answers to medical questions.
 
 Your responsibilities include:
 1. Gather details from user to correctly predict symptoms.
