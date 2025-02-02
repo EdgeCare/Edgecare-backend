@@ -3,23 +3,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from schemas.agents import AgentState
 from utils.openaiClient import openaiClient
-
-def extract_list_from_response(response):
-    try:
-        start_index = response.find("[")
-        end_index = response.rfind("]") + 1
-        
-        list_part = response[start_index:end_index].strip()
-        
-        extracted_list = ast.literal_eval(list_part)
-        
-        if isinstance(extracted_list, list):
-            return extracted_list
-        else:
-            return []
-    except Exception as e:
-        print(f"Error extracting list: {e}")
-        return []
+from utils.extractContent import extract_list
 
 class KeywordExtractionAgent:
     @staticmethod
@@ -46,7 +30,7 @@ class KeywordExtractionAgent:
 
         for i in range (5):
             keyWords =  openaiClient.generate_response(prompt)
-            extracted_keywords = extract_list_from_response(keyWords)
+            extracted_keywords = extract_list(keyWords)
             # extracted_keywords = ['body anatomy', 'human body structure', 'body composition', 'physiology of the human body', 'organ systems in the body']
             if(len(extracted_keywords)>2):
                 break
