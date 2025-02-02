@@ -25,6 +25,12 @@ Start server in port 8000 without 8080/proxy/
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
+## To kill a running process in a port
+```
+lsof -i :8000
+sudo kill -9 <PID>
+```
+
 ## File Structure
 
 ```
@@ -32,13 +38,13 @@ Edgecare-backend/
 ├── main.py               # Entry point for the FastAPI application
 ├── README.md             # Documentation for the project
 ├── requirements.txt      # List of Python dependencies
-├── .backenv              # Environment variables (e.g., DB credentials)
+├── .ec-env               # Environment variables
 ├── agents/
-│   ├── manager_agent.py  # Manager agent for orchestration
-│   ├── qa_agent.py       # Question-Answering agent
-│   ├── rag_agent.py      # Retrieval agent
-│   ├── query_refiner.py  # User query refinement agent
-│   ├── keyword_agent.py  # Keyword extraction agent
+│   ├── manager_agent.py        # Manager agent for orchestration
+│   ├── qa_agent.py             # Question-Answering agent
+│   ├── retrieval_agent.py      # Retrieval agent
+│   ├── query_refiner.py        # User query refinement agent
+│   ├── keyword_agent.py        # Keyword extraction agent
 │   └── 
 ├── workflows/            # Workflows combining multiple agents
 │   ├── multi_agent_workflow.py 
@@ -59,4 +65,70 @@ Edgecare-backend/
 │   └── public.py         # Public-related endpoints
 └── utils/                # Utility functions and reusable components
     └── helpers.py        # Helper functions for the app
+```
+
+
+## Database
+
+### View tables in database Command-Line
+
+1. Connect to the PostgreSQL database:
+``` psql -h localhost -U your_username -d your_database ```
+
+2. To list all tables:
+``` \dt ```
+
+3. View Table Rows
+``` SELECT * FROM table_name; ```
+
+4. delete a raw
+``` DELETE FROM users WHERE id = 4; ```
+
+5. View columns in a table
+```\d table_name```
+
+### Additional Commands
+
+List all databases:
+
+``` \l ```
+
+Connect to a specific database:
+
+``` \c database_name ``` 
+
+Quit the psql interface
+
+``` \q ``` 
+
+### edit table columns as admin (DO NOT LOGIN USING THIS USER UNLESS YOU HAVE...)
+
+1. connect to database
+```
+sudo -i -u postgres
+psql
+\c edge_care_db
+```
+
+2. See table details
+```
+\d users
+```
+
+3. any SQL command to do the change
+eg-
+```
+ALTER TABLE users RENAME COLUMN username TO email;
+```
+
+4. give table permission to <COMMON_USER> - give permission to <COMMON_USER> after creating a new table
+```
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE <TABLE_NAME> TO <COMMON_USER>;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE <TABLE_NAME>_id_seq TO <COMMON_USER>;
+```
+
+4. quit
+```
+\q
+exit 
 ```
