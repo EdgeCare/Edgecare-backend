@@ -35,11 +35,13 @@ class KeywordExtractionAgent:
         2. Include synonyms or related terms for broader coverage if necessary.
         3. Be formatted to maximize retrieval effectiveness from a medical document database.
         4. Use professional terminology where applicable.
-
+        
+        
         User Question: "{userQuestion}"
 
-        Generate 3-5 optimized queries for retrieving relevant medical documents.
+        Generate 3-5 optimized queries for retrieving relevant medical documents. 
         Provide the queries as a Python list of strings. Ensure the list format is valid and ready for parsing directly into a Python program.
+        Do not give any query if the user question is not about a medical condition. Just give an empty list instead.
         '''
 
         for i in range (5):
