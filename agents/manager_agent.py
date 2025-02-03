@@ -6,7 +6,7 @@ from schemas.agents import AgentState
 class ManagerAgent:
     @staticmethod
     def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona", END]]:
-        if not state.keywords:
+        if state.keywords is None:
             print("\n🕵️ Invoking Keyword Extraction Agent")
             return Command(goto="KEA")
         if len(state.keywords) == 0:
@@ -21,9 +21,8 @@ class ManagerAgent:
             return Command(goto="QAA")
         else:
             print("\n🕵️ Invoking persona for a medical reply")
-            return Command(goto="Persona")
-
-
+            Command(goto="Persona")
+            return Command(goto=END)
 
     @staticmethod
     def manageMcqQuestions(state: AgentState) -> Command[Literal["KEA", "RA", "MCQA", END]]:
