@@ -31,5 +31,6 @@ User's latest message: {user_message}
 
         generated_answer = openaiClient.generate_response(prompt)
         state.answer=generated_answer
-        print("\nProcess Complete!\n")
+        print("\nPersona Process Complete!\n")
+        # print("Output:", generated_answer)
         return {"answer": generated_answer}

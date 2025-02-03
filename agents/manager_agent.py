@@ -6,10 +6,10 @@ from schemas.agents import AgentState
 class ManagerAgent:
     @staticmethod
     def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona", END]]:
-        if state.keywords is None:
+        if not state.keywords:
             print("\n🕵️ Invoking Keyword Extraction Agent")
             return Command(goto="KEA")
-        if len(state.keywords) == 0:
+        elif len(state.keywords) == 0:
             # state.keywords.append('##NO_KEY_WORDS')
             print("\n🕵️ Invoking persona for a casual reply")
             return Command(goto="Persona")
@@ -21,7 +21,7 @@ class ManagerAgent:
             return Command(goto="QAA")
         else:
             print("\n🕵️ Invoking persona for a medical reply")
-            Command(goto="Persona")
+            # Command(goto="Persona")
             return Command(goto=END)
 
     @staticmethod

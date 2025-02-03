@@ -1,8 +1,9 @@
+import os
 import requests
 
 # Replace with your Mistral API endpoint and API key
 API_URL = "https://api.mistral.ai/v1/completions"
-API_KEY = "API_KEY"
+API_KEY = os.getenv("MISTRAL_API_KEY")
 
 def send_prompt_to_mistral(prompt):
     headers = {

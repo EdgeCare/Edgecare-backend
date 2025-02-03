@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
-from routes import auth, user, rag_route
+from routes import auth, user
 from db.models import public as public_model,user as user_model
 import uvicorn
 from db.database import engine
