@@ -1,6 +1,7 @@
 from agents.keyword_extraction_agent import KeywordExtractionAgent
 from agents.retrieval_agent import RetrievalAgent
 from agents.question_answering_agent import QuestionAnsweringAgent
+from agents.followup_question_agent import FollowupQuestionsAgent
 from agents.manager_agent import ManagerAgent
 from agents.persona_agent import PersonaAgent
 
@@ -16,13 +17,14 @@ graph.add_node("KEA", KeywordExtractionAgent.extract_keywords)
 graph.add_node("Persona", PersonaAgent.talk)
 graph.add_node("RA", RetrievalAgent.retrieve_documents)
 graph.add_node("QAA", QuestionAnsweringAgent.answer_question)
-
+graph.add_node("FQA", FollowupQuestionsAgent.answer_question)
 # Define edges to establish the workflow
 graph.add_edge(START, "Manager")
 graph.add_edge("KEA", "Manager")
 graph.add_edge("Persona", "Manager")
 graph.add_edge("RA", "Manager")
 graph.add_edge("QAA", "Manager")
+graph.add_edge("FQA","Manager")
 
 print("main workflow Running")
 

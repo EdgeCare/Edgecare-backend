@@ -1,5 +1,6 @@
 
 from pydantic import BaseModel
+from datetime import datetime
 
 # Base schema for user
 class UserBase(BaseModel):

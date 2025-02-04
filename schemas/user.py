@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from datetime import datetime
 
 # Base schema for authenticated users
 class AuthenticatedUserBase(BaseModel):

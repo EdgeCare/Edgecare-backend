@@ -5,14 +5,17 @@ from schemas.agents import AgentState
 
 class ManagerAgent:
     @staticmethod
-    def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona", END]]:
+    def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona","FQA", END]]:
+        # if not state.answer:
+        #     print("\n🕵️ Invoking Keyword Extraction Agent")
+        #     return Command(goto="FQA")
         if not state.keywords:
             print("\n🕵️ Invoking Keyword Extraction Agent")
             return Command(goto="KEA")
-        elif len(state.keywords) == 0:
-            # state.keywords.append('##NO_KEY_WORDS')
-            print("\n🕵️ Invoking persona for a casual reply")
-            return Command(goto="Persona")
+        # elif len(state.keywords) == 0:
+        #     # state.keywords.append('##NO_KEY_WORDS')
+        #     print("\n🕵️ Invoking persona for a casual reply")
+        #     return Command(goto="Persona")
         elif not state.documents:
             print("\n🕵️ Invoking Retrieval Agent")
             return Command(goto="RA")
