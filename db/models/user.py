@@ -16,3 +16,16 @@ class Token(Base):
     token = Column(String, unique=True, nullable=False)
     expires_at = Column(DateTime, nullable=False)
     user = relationship("User")
+
+class Chat(Base):
+    __tablename__ = "chats"
+
+    chat_id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"), primary_key=True, index=True)
+    chat = Column(String, nullable=False)  # Stores the chat history as a string
+
+class Persona(Base):
+    __tablename__ = "persona"
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True,index=True)
+    details = Column(String)
+    
