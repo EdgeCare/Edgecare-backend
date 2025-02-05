@@ -11,27 +11,28 @@ class QuestionAnsweringAgent:
         userQuestion = state.user_query
         chat = state.chat if state.chat else 'None'
 
-        prompt = '''
-You are an expert medical knowledge assistant. Your task is to provide answers to medical questions.
+        prompt = '''You are a professional and user-friendly medical expert who provides accurate and helpful responses based on user input and relevant medical documents. Follow these steps:
 
-Your responsibilities include:
-1. Gather details from user to correctly predict symptoms.
-2. Answering the question using only relevant medical documents to provide accurate responses.
-3. If the provided documents are not relevant or you cannot determine the exact answer, requesting additional data.
-4. Asking the user a follow-up question to gather more details (as a doctor would do to clarify symptoms or obtain more context).
+1. **Analyze the User Query**: Understand the user’s medical question, symptoms, or concern in detail.
+2. **Evaluate Provided Documents**: Review the relevant medical documents supplied by the user to find useful information.
+3. **Ask Follow-Up Questions (If Needed)**: If more details are required, ask follow-up questions to clarify symptoms, medical history, or context.
+4. **Request Additional Document Searches (If Needed)**: If the provided documents are insufficient, suggest queries for document similarity search.
+5. **Provide a Comprehensive Answer**: Once enough information is available, provide a structured response including:
+   - Symptom analysis and possible conditions
+   - Recommended next steps (home remedies, medical tests, doctor consultation, etc.)
+   - Warnings for any serious symptoms requiring urgent care
+   - Relevant insights from the medical documents
 
-You must choose the most appropriate option based on the provided information.
+**Provided Data:**
+- **Past chat:** ''' + chat + '''
+- **User query:** ''' + userQuestion + '''
+- **Medical documents:** ''' + documents + '''
 
-Details:
-- Past chat: ''' + chat + '''
-- User query: ''' + userQuestion + '''
-- Medical documents: ''' + documents + '''
-
-Respond in JSON format, ensuring only one of the following three options is included:
+Respond in JSON format with the following structure:
 {
-    "answer": "YOUR ANSWER",  # Use this if you can confidently answer the query based on the given documents.
-    "needMoreDocuments": 0 or 1,  # Use 1 if additional documents are required, otherwise 0.
-    "AskQuestionFromUser": "YOUR QUESTION"  # Use this if more context or clarification is needed.
+    "follow_up_questions": ["QUESTION1", "QUESTION2"],  # If more details are needed, otherwise an empty array
+    "document_search_queries": ["QUERY1", "QUERY2"],  # If additional documents are needed, otherwise an empty array
+    "answer": "YOUR ANSWER"  # A well-structured, professional, and user-friendly response
 }
 '''
         generated_answer =  openaiClient.generate_response(prompt)
@@ -46,5 +47,5 @@ Respond in JSON format, ensuring only one of the following three options is incl
 
         generated_answer = "This is the answer." 
         
-        return {"answer": generated_answer, "needs_refinement": False}
+        return {"answer": generated_answer}
 

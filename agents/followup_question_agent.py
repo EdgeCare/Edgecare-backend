@@ -40,5 +40,5 @@ Respond in JSON format with the following structure:
 
         generated_answer = "This is the answer." 
         
-        return {"answer": generated_answer, "needs_refinement": False}
+        return {"answer": generated_answer}
 

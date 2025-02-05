@@ -18,6 +18,7 @@ graph.add_node("Persona", PersonaAgent.talk)
 graph.add_node("RA", RetrievalAgent.retrieve_documents)
 graph.add_node("QAA", QuestionAnsweringAgent.answer_question)
 graph.add_node("FQA", FollowupQuestionsAgent.answer_question)
+
 # Define edges to establish the workflow
 graph.add_edge(START, "Manager")
 graph.add_edge("KEA", "Manager")
