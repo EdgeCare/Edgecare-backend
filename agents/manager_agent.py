@@ -5,24 +5,26 @@ from schemas.agents import AgentState
 
 class ManagerAgent:
     @staticmethod
-    def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona", END]]:
-        if not state.keywords:
+    def manageMainFlow(state: AgentState) -> Command[Literal["KEA", "RA", "QAA","Persona","FQA", END]]:
+        if state.answer:
+            print("\nProcess Complete!\n")
+            return Command(goto=END)
+
+        elif not state.keywords:
             print("\n🕵️ Invoking Keyword Extraction Agent")
             return Command(goto="KEA")
-        elif len(state.keywords) == 0:
-            # state.keywords.append('##NO_KEY_WORDS')
-            print("\n🕵️ Invoking persona for a casual reply")
-            return Command(goto="Persona")
+        
         elif not state.documents:
             print("\n🕵️ Invoking Retrieval Agent")
             return Command(goto="RA")
+        
         elif not state.answer:
             print("\n🕵️ Invoking Question Answering Agent")
             return Command(goto="QAA")
-        else:
-            print("\n🕵️ Invoking persona for a medical reply")
-            # Command(goto="Persona")
-            return Command(goto=END)
+        
+        # not state.answer:
+        print("\n🕵️ Invoking Question Answering Agent")
+        return Command(goto="QAA")
 
     @staticmethod
     def manageMcqQuestions(state: AgentState) -> Command[Literal["KEA", "RA", "MCQA", END]]:
@@ -37,5 +39,5 @@ class ManagerAgent:
             return Command(goto="MCQA")
         else:
             print("\nProcess Complete!\n")
-            print("state =", state)
+            # print("state =", state)
             return Command(goto=END)

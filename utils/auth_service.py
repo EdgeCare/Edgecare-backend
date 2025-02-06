@@ -8,7 +8,7 @@ import uuid
 # Secret key and hashing algorithm
 SECRET_KEY = "your-secret-key"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 15  # 15 min
+ACCESS_TOKEN_EXPIRE_MINUTES = 60000  # 1,000 hours
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
