@@ -43,7 +43,7 @@ Response Format (Always JSON:
         "MESSAGE": give a reason for unsupported or reply to greeting requests,
         "KEYWORDS": python list of extracted keywords
     }
-    "UNSUPPORTED" → true if the query is non-medical; otherwise, false.
+    "UNSUPPORTED" → true if the user query is non-medical or not relate to the past chat; otherwise, false.
     "RETRIEVE_SNIPPETS" → true if retrieval should happen; false otherwise.
     "MESSAGE" → the reply message for the user. a polite answer. 
     "KEYWORDS" → Extracted medical queries as a Python list (if RETRIEVE_SNIPPETS = true)."""
@@ -61,6 +61,7 @@ New query from user: """ + state.user_query + """
 
         for i in range (5):
             reply =  openaiClient.generate_response(prompt)
+            # print(prompt)
             extracted_json = extract_json(reply)
 
             if extracted_json["UNSUPPORTED"]:

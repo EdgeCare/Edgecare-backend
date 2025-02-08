@@ -17,15 +17,18 @@ async def create_post(post_data: UserQuestionRequest,db: Session = Depends(get_d
     print("post_data",post_data)
 
     question = post_data.content
+    health_reports = post_data.healthReports
     user_id=post_data.userId
     chat_id=post_data.chatId
     chat = get_chat_by_user_and_id(db,user_id,chat_id)
 
     new_chat_str = chat.chat+f"\nuser: {question} \n" if chat else f"\nuser: {question} \n"
+    # print(new_chat_str)
     
     try:
         final_state = await compiled_graph.ainvoke({
             "user_query": question,
+            "health_reports": health_reports,
             "chat": chat.chat if chat else None,
             "keywords": [],
             "documents": [],

@@ -25,7 +25,7 @@ class ManagerAgent:
         # not state.answer:
         print("\n🕵️ Invoking Question Answering Agent")
         return Command(goto="QAA")
-
+        
     @staticmethod
     def manageMcqQuestions(state: AgentState) -> Command[Literal["KEA", "RA", "MCQA", END]]:
         if not state.keywords:
