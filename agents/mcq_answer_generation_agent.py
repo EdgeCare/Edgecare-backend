@@ -29,8 +29,9 @@ class McqAnswerGenerationAgent:
 
         ''')
         
-        final_prompt = prompt.render(context=state.documents, question=state.user_query, options=state.user_query)
-
+        documents = ", \n".join([f"document {i+1}: {doc}" for i, doc in enumerate(state.documents)]) if state.documents else 'None'
+        final_prompt = prompt.render(context=documents, question=state.user_query, options=state.answer_options)
+        
         answer = openaiClient.generate_response(final_prompt)
 
         return {"answer": answer}

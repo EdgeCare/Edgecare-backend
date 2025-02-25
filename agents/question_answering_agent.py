@@ -7,7 +7,8 @@ class QuestionAnsweringAgent:
     def answer_question(state: AgentState) -> dict:
         print("🤖 Question Answering Agent Running")
 
-        documents = "\n".join(state.documents) if state.documents else 'None'
+        documents = ", \n".join([f"document {i+1}: {doc}" for i, doc in enumerate(state.documents)]) if state.documents else 'None'
+
         userQuestion = state.user_query
         chat = state.chat if state.chat else 'None'
         healthReports = state.health_reports
@@ -28,6 +29,9 @@ class QuestionAnsweringAgent:
    - Symptom analysis and possible conditions
    - Recommended next steps (home remedies, medical tests, doctor consultation, etc.)
    - Warnings for any serious symptoms requiring urgent care
+   - **Use a structured, pointwise format** for better readability.
+   - **Be empathetic and supportive** while maintaining accuracy.
+   - **Make the response easy to understand** by avoiding overly complex medical jargon.
 
 **Important Rules**:
 - **Ask only one follow-up question at a time.**
@@ -47,21 +51,25 @@ Respond in JSON format with the following structure:
 }
 '''
 
-        generated_answer =  openaiClient.generate_response(prompt)
-        json_response = extract_json(generated_answer)
-        print(json_response)
+        for _ in range(5):
+            try: 
+                generated_answer =  openaiClient.generate_response(prompt)
+                json_response = extract_json(generated_answer)
+                print(json_response)
 
-        answer = json_response.get("answer", "")
-        follow_up_question = json_response.get("follow_up_question","")
-        need_more_documents = json_response.get("needMoreDocuments", 0)
-        ask_question_from_user = json_response.get("AskQuestionFromUser", "")
+                answer = json_response.get("answer", "")
+                follow_up_question = json_response.get("follow_up_question","")
+                need_more_documents = json_response.get("needMoreDocuments", 0)
+                ask_question_from_user = json_response.get("AskQuestionFromUser", "")
 
-        if answer:
-            return {"answer": answer}
-        elif follow_up_question:
-            return {"answer":follow_up_question}
+                if answer:
+                    return {"answer": answer}
+                elif follow_up_question:
+                    return {"answer":follow_up_question}
+            except:
+                pass
 
-        generated_answer = "Error occured" 
-        
+        generated_answer = "System Unavailable" 
+                
         return {"answer": generated_answer}
 
